@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +18,19 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository repository;
     private final ModelMapper mapper;
+    private final ProductClient productclient;
 
     @Override
     public InventoryResponse createInventory(InventoryRequest request) {
 
+        productclient.getProductById(request.getProductId());
+        InventoryEntity byProductId = repository.findByProductId(request.getProductId());
+
+        if (byProductId != null) {
+            throw new RuntimeException(
+                    "Inventory already exists for product id : " + request.getProductId()
+            );
+        }
         InventoryEntity entity = new InventoryEntity();
 
         entity.setProductId(request.getProductId());
