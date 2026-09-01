@@ -33,4 +33,5 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ex.getMessage());
     }
-} //This is to verify 1step
+}//Inventory Service by Rahul Havale
+//This is to verify 1step
